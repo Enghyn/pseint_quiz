@@ -93,5 +93,25 @@
         <div class="tiempo">Tiempo total: {{ tiempo }} segundos</div>
         <a href="{{ url_for('inicio') }}">Volver a intentar</a>
     </div>
+
+    {% if errores and errores|length > 0 %}
+    <div class="resultado-container" style="margin-top: 32px;">
+        <h2>Preguntas respondidas incorrectamente</h2>
+        <ul style="list-style: none; padding: 0;">
+            {% for error in errores %}
+            <li style="margin-bottom: 28px; border-bottom: 1px solid #e0e7ff; padding-bottom: 18px;">
+                <div style="font-weight: 600; color: #c0392b; margin-bottom: 6px;">Pregunta {{ loop.index }}:</div>
+                <div style="margin-bottom: 8px; color: #2d3a4a;">{{ error.pregunta }}</div>
+                <pre style="background: #f4f6fa; border-radius: 8px; padding: 10px; font-size: 0.98em; margin-bottom: 8px; color: #222;">{{ error.codigo }}</pre>
+                <div style="margin-bottom: 4px; color: #555;">Tu respuesta: <b>{{ error.respuesta_usuario }}</b></div>
+                <div style="margin-bottom: 4px; color: #4f6ef7;">Respuesta correcta: <b>{{ error.respuesta_correcta }}</b></div>
+                <div style="margin-top: 6px; color: #222; background: #eaf1ff; border-radius: 6px; padding: 8px 10px;">
+                    <b>Explicación:</b> {{ error.explicacion }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
 </body>
 </html>

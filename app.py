@@ -41,7 +41,8 @@ El formato de la respuesta debe ser un ÚNICO objeto JSON, SIN ningún texto ant
   "Pregunta": "Texto de la pregunta clara y concisa.",
   "Codigo": "Fragmento de código PSeInt válido y autocontenible.",
   "Respuestas": ["Respuesta A", "Respuesta B", "Respuesta C", "Respuesta D"],
-  "Respuesta correcta": "Respuesta correcta exactamente igual a una de las opciones"
+  "Respuesta correcta": "Respuesta correcta exactamente igual a una de las opciones",
+  "Explicacion": "Explicación breve y genérica de por qué la respuesta correcta es la correcta, sin hacer referencia a la opción elegida por el usuario, sino explicando el razonamiento o el resultado del código."
 }
 
 Recuerda: responde SOLO con el objeto JSON, sin bloques de código, sin explicaciones y sin texto adicional. El código debe ser válido y ejecutable en PSeInt, con funciones y subprocesos SIEMPRE fuera del algoritmo principal.
@@ -115,7 +116,8 @@ def generar_pregunta():
             "pregunta": pregunta_json.get("Pregunta"),
             "codigo": pregunta_json.get("Codigo"),
             "respuestas": respuestas,
-            "respuesta_correcta": pregunta_json.get("Respuesta correcta")
+            "respuesta_correcta": pregunta_json.get("Respuesta correcta"),
+            "explicacion": pregunta_json.get("Explicacion", "")
         }
         return pregunta
     except Exception as e:
@@ -160,15 +162,29 @@ def quiz():
     if request.method == 'POST':
         seleccion = request.form.get('respuesta')
         correcta = session['pregunta_actual']['respuesta_correcta']
+        explicacion = session['pregunta_actual'].get('explicacion', '')
         session['total'] += 1
         if seleccion and seleccion.strip() == correcta.strip():
             session['puntaje'] += 1
+        else:
+            # Guardar preguntas falladas en la sesión
+            errores = session.get('errores', [])
+            errores.append({
+                'pregunta': session['pregunta_actual']['pregunta'],
+                'codigo': session['pregunta_actual']['codigo'],
+                'respuestas': session['pregunta_actual']['respuestas'],
+                'respuesta_correcta': correcta,
+                'explicacion': explicacion,
+                'respuesta_usuario': seleccion
+            })
+            session['errores'] = errores
 
         if session['total'] >= 5:
             tiempo = int(time.time() - session['inicio'])
             puntaje = session['puntaje']
+            errores = session.get('errores', [])
             session.clear()  # Limpia la sesión para un nuevo intento
-            return render_template('resultado.html', correctas=puntaje, tiempo=tiempo)
+            return render_template('resultado.html', correctas=puntaje, tiempo=tiempo, errores=errores)
 
         # Obtiene la siguiente pregunta del cache
         session['pregunta_actual'] = obtener_pregunta_cache()
@@ -182,7 +198,12 @@ def resultado():
     """
     Ruta para mostrar el resultado final (permite refrescar la página de resultado).
     """
-    return render_template('resultado.html', correctas=request.args.get('correctas', 0), tiempo=request.args.get('tiempo', 0))
+    # Si se accede directamente, intenta recuperar errores de la sesión
+    errores = session.get('errores', [])
+    return render_template('resultado.html', 
+                           correctas=request.args.get('correctas', 0), 
+                           tiempo=request.args.get('tiempo', 0), 
+                           errores=errores)
 
 @app.route('/error')
 def error():
