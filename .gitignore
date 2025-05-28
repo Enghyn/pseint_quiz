@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Entornos virtuales
+venv/
+ENV/
+.env/
+.venv/
+quiz_pseint/pseint_venv/
+quiz_pseint/__pycache__/
+
+# Archivos de entorno y configuración sensibles
+.env
+*.env
+
+# Archivos de base de datos
+*.sqlite3
+*.db
+
+# Archivos de logs
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.swp
+*.swo
+~*
+
+# Otros
+.idea/
+.vscode/

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Error al generar la pregunta</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f8d7da; color: #721c24; }
+        .error-container { background: #fff; border: 1px solid #f5c6cb; border-radius: 8px; padding: 24px; margin: 40px auto; max-width: 700px; }
+        h2 { color: #721c24; }
+        pre { 
+            background: #f5c6cb; 
+            padding: 12px; 
+            border-radius: 6px; 
+            overflow-x: auto; 
+            white-space: pre; 
+            max-width: 100%; 
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h2>Error al generar la pregunta</h2>
+        <strong>Detalle:</strong>
+        <pre>{{ detalle }}</pre>
+        <strong>Respuesta de la API:</strong>
+        <pre>{{ texto }}</pre>
+        <a href="{{ url_for('index') }}">Volver a intentar</a>
+    </div>
+</body>
+</html>

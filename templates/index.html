@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz PSeInt</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f7f7f7 100%);
+            min-height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .quiz-container {
+            background: #fff;
+            padding: 32px 32px 28px 32px;
+            border-radius: 18px;
+            max-width: 540px;
+            width: 100%;
+            margin: 48px auto 0 auto;
+            box-shadow: 0 6px 32px rgba(60, 72, 88, 0.12), 0 1.5px 6px rgba(60, 72, 88, 0.10);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            transition: max-width 0.3s, padding 0.3s;
+        }
+        .pregunta {
+            font-size: 1.25em;
+            margin-bottom: 0;
+            color: #2d3a4a;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            line-height: 1.35;
+        }
+        pre {
+            background: #f3f6fa;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 1.08em;
+            color: #1a2330;
+            margin-bottom: 0;
+            overflow-x: auto;
+            border: 1px solid #e0e7ef;
+            word-break: break-word;
+            font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+        }
+        form {
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .opcion {
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .opcion input[type="radio"] {
+            accent-color: #4f6ef7;
+            width: 20px;
+            height: 20px;
+            margin-right: 6px;
+        }
+        .opcion label {
+            font-size: 1.08em;
+            color: #2d3a4a;
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .opcion input[type="radio"]:checked + label {
+            color: #fff;
+            background: #4f6ef7;
+            font-weight: 600;
+        }
+        button {
+            margin-top: 10px;
+            padding: 12px 0;
+            font-size: 1.12em;
+            background: linear-gradient(90deg, #4f6ef7 60%, #6b8cff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(79, 110, 247, 0.08);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            width: 100%;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        button:hover {
+            background: linear-gradient(90deg, #3b53c7 60%, #4f6ef7 100%);
+            box-shadow: 0 4px 16px rgba(79, 110, 247, 0.13);
+        }
+        #resultado {
+            margin-top: 18px;
+            font-weight: bold;
+            font-size: 1.13em;
+            color: #4f6ef7;
+            min-height: 28px;
+        }
+        @media (max-width: 900px) {
+            .quiz-container {
+                max-width: 98vw;
+                padding: 28px 4vw 24px 4vw;
+            }
+        }
+        @media (max-width: 700px) {
+            .quiz-container {
+                max-width: 100vw;
+                padding: 18px 2vw 18px 2vw;
+                margin: 24px auto 0 auto;
+            }
+            .pregunta {
+                font-size: 1.08em;
+            }
+            pre {
+                font-size: 1em;
+                padding: 10px;
+            }
+        }
+        @media (max-width: 500px) {
+            body {
+                justify-content: flex-start;
+            }
+            .quiz-container {
+                max-width: 100vw;
+                width: 100vw;
+                padding: 8vw 2vw 8vw 2vw;
+                margin: 8vw 0 0 0;
+                border-radius: 0 0 16px 16px;
+                min-height: 80vh;
+                box-shadow: 0 2px 16px rgba(60, 72, 88, 0.10);
+            }
+            .pregunta {
+                font-size: 1em;
+            }
+            pre {
+                font-size: 0.97em;
+                padding: 8px;
+            }
+            button {
+                font-size: 1em;
+                padding: 10px 0;
+            }
+        }
+        @media (max-width: 400px) {
+            .quiz-container {
+                padding: 4vw 1vw 4vw 1vw;
+                border-radius: 0 0 10px 10px;
+            }
+            .pregunta {
+                font-size: 0.95em;
+            }
+            pre {
+                font-size: 0.92em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="pregunta">
+            Pregunta {{ num_pregunta }} de 5:<br>
+            {{ pregunta["pregunta"] }}
+        </div>
+        <pre>{{ pregunta["codigo"] }}</pre>
+        <form method="post">
+            {% for opcion in pregunta["respuestas"] %}
+            <div class="opcion">
+                <input type="radio" name="respuesta" value="{{ opcion }}" id="opcion{{ loop.index }}" required>
+                <label for="opcion{{ loop.index }}">{{ opcion }}</label>
+            </div>
+            {% endfor %}
+            <button type="submit">Responder</button>
+        </form>
+    </div>
+</body>
+</html>

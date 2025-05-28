@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado del Quiz</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f7f7f7 100%);
+            min-height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .resultado-container {
+            background: #fff;
+            padding: 38px 32px;
+            border-radius: 18px;
+            width: 480px;
+            max-width: 480px;
+            min-width: 300px;
+            box-sizing: border-box;
+            box-shadow: 0 6px 32px rgba(60, 72, 88, 0.12), 0 1.5px 6px rgba(60, 72, 88, 0.10);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            transition: all 0.3s ease-in-out;
+        }
+        @media (max-width: 500px) {
+            .resultado-container {
+                width: 96vw;
+                max-width: 96vw;
+                min-width: 96vw;
+                padding: 18px 8px;
+                border-radius: 0 0 14px 14px;
+            }
+        }
+
+        h2 {
+            color: #4f6ef7;
+            font-size: 2em;
+            margin-bottom: 0;
+        }
+        .puntaje {
+            font-size: 1.25em;
+            color: #2d3a4a;
+            font-weight: 600;
+        }
+        .tiempo {
+            color: #555;
+            font-size: 1.08em;
+        }
+        a {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 12px 0;
+            font-size: 1.12em;
+            background: linear-gradient(90deg, #4f6ef7 60%, #6b8cff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(79, 110, 247, 0.08);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            width: 100%;
+        }
+        a:active {
+            transform: scale(0.98);
+        }
+        a:hover {
+            background: linear-gradient(90deg, #3b53c7 60%, #4f6ef7 100%);
+            box-shadow: 0 4px 16px rgba(79, 110, 247, 0.13);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="resultado-container">
+        <h2>¡Quiz finalizado!</h2>
+        <div class="puntaje">Respuestas correctas: {{ correctas }} de 5</div>
+        <div class="tiempo">Tiempo total: {{ tiempo }} segundos</div>
+        <a href="{{ url_for('inicio') }}">Volver a intentar</a>
+    </div>
+</body>
+</html>
