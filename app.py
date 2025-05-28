@@ -35,6 +35,10 @@ Genera preguntas variadas de estos dos tipos (elige aleatoriamente en cada gener
 - ¿Qué salida tendrá el siguiente código?
 - ¿Qué salida tendrá el siguiente código si se ingresan los siguientes valores? (en este caso, incluye en la pregunta los valores de entrada y asegúrate de que el código use Leer)
 
+El código debe ser ni muy sencillo, ni muy complejo, adecuado para estudiantes de nivel intermedio en PSeInt. Piensa que es un cuestionario para el ingreso a una universidad.
+
+Recuerda, las funciones y subprocesos SIEMPRE deben estar fuera del algoritmo principal.
+
 El formato de la respuesta debe ser un ÚNICO objeto JSON, SIN ningún texto antes o después, ni bloques de código Markdown. El objeto debe tener exactamente estas claves:
 
 {
@@ -179,7 +183,7 @@ def quiz():
             })
             session['errores'] = errores
 
-        if session['total'] >= 5:
+        if session['total'] >= 10:
             tiempo = int(time.time() - session['inicio'])
             puntaje = session['puntaje']
             errores = session.get('errores', [])
