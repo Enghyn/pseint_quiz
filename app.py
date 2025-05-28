@@ -143,13 +143,9 @@ app.secret_key = os.urandom(24)  # Necesario para usar sesiones
 @app.route('/')
 def inicio():
     """
-    Ruta de inicio: reinicia el quiz y asigna la primera pregunta desde el cache.
+    Ruta de inicio: muestra la presentación y botón para comenzar el quiz.
     """
-    session['puntaje'] = 0
-    session['total'] = 0
-    session['inicio'] = time.time()
-    session['pregunta_actual'] = obtener_pregunta_cache()
-    return redirect(url_for('quiz'))
+    return render_template('inicio.html')
 
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
@@ -157,7 +153,12 @@ def quiz():
     Ruta principal del quiz: muestra la pregunta actual y procesa la respuesta.
     """
     if 'puntaje' not in session:
-        return redirect(url_for('inicio'))
+        # Inicializa la sesión si entra directo
+        session['puntaje'] = 0
+        session['total'] = 0
+        session['inicio'] = time.time()
+        session['pregunta_actual'] = obtener_pregunta_cache()
+        session['errores'] = []
 
     if request.method == 'POST':
         seleccion = request.form.get('respuesta')
@@ -167,7 +168,6 @@ def quiz():
         if seleccion and seleccion.strip() == correcta.strip():
             session['puntaje'] += 1
         else:
-            # Guardar preguntas falladas en la sesión
             errores = session.get('errores', [])
             errores.append({
                 'pregunta': session['pregunta_actual']['pregunta'],
@@ -186,12 +186,11 @@ def quiz():
             session.clear()  # Limpia la sesión para un nuevo intento
             return render_template('resultado.html', correctas=puntaje, tiempo=tiempo, errores=errores)
 
-        # Obtiene la siguiente pregunta del cache
         session['pregunta_actual'] = obtener_pregunta_cache()
 
     pregunta = session['pregunta_actual']
     num_pregunta = session.get('total', 0) + 1
-    return render_template('index.html', pregunta=pregunta, num_pregunta=num_pregunta)
+    return render_template('quiz.html', pregunta=pregunta, num_pregunta=num_pregunta)
 
 @app.route('/resultado')
 def resultado():

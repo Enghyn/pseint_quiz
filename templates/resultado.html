@@ -83,6 +83,32 @@
             background: linear-gradient(90deg, #3b53c7 60%, #4f6ef7 100%);
             box-shadow: 0 4px 16px rgba(79, 110, 247, 0.13);
         }
+        .respuesta-usuario, .respuesta-correcta {
+            font-size: 1.13em;
+            font-weight: 600;
+        }
+        @media (max-width: 700px) {
+            .respuesta-usuario, .respuesta-correcta {
+                font-size: 1.08em;
+            }
+            .resultado-container {
+                max-width: 98vw !important;
+                width: 98vw !important;
+                min-width: 0 !important;
+                padding: 12px 2vw !important;
+            }
+        }
+        @media (max-width: 500px) {
+            .respuesta-usuario, .respuesta-correcta {
+                font-size: 1em;
+            }
+            .resultado-container {
+                max-width: 100vw !important;
+                width: 100vw !important;
+                min-width: 0 !important;
+                padding: 8vw 2vw 8vw 2vw !important;
+            }
+        }
 
     </style>
 </head>
@@ -95,17 +121,19 @@
     </div>
 
     {% if errores and errores|length > 0 %}
-    <div class="resultado-container" style="margin-top: 32px;">
+    <div class="resultado-container" style="margin-top: 32px; max-width: 700px; width: 98vw;">
         <h2>Preguntas respondidas incorrectamente</h2>
         <ul style="list-style: none; padding: 0;">
             {% for error in errores %}
-            <li style="margin-bottom: 28px; border-bottom: 1px solid #e0e7ff; padding-bottom: 18px;">
-                <div style="font-weight: 600; color: #c0392b; margin-bottom: 6px;">Pregunta {{ loop.index }}:</div>
-                <div style="margin-bottom: 8px; color: #2d3a4a;">{{ error.pregunta }}</div>
-                <pre style="background: #f4f6fa; border-radius: 8px; padding: 10px; font-size: 0.98em; margin-bottom: 8px; color: #222;">{{ error.codigo }}</pre>
-                <div style="margin-bottom: 4px; color: #555;">Tu respuesta: <b>{{ error.respuesta_usuario }}</b></div>
-                <div style="margin-bottom: 4px; color: #4f6ef7;">Respuesta correcta: <b>{{ error.respuesta_correcta }}</b></div>
-                <div style="margin-top: 6px; color: #222; background: #eaf1ff; border-radius: 6px; padding: 8px 10px;">
+            <li style="margin-bottom: 38px; border-bottom: 1px solid #e0e7ff; padding-bottom: 28px; background: #f8faff; border-radius: 16px; box-shadow: 0 2px 10px rgba(79,110,247,0.06); padding-top: 18px;">
+                <div style="font-weight: 600; color: #c0392b; margin-bottom: 8px; font-size: 1.15em;">Pregunta {{ loop.index }}:</div>
+                <div style="margin-bottom: 10px; color: #2d3a4a; font-size: 1.08em;">{{ error.pregunta }}</div>
+                <div style="overflow-x: auto; background: #f4f6fa; border-radius: 8px; padding: 12px; font-size: 1.04em; margin-bottom: 10px; color: #222; max-width: 100%; text-align: left; display: block;">
+                    <pre style="margin: 0; font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace; white-space: pre; tab-size: 4; text-align: left; background: none; box-shadow: none;">{{ error.codigo|replace('\t', '    ')|e }}</pre>
+                </div>
+                <div class="respuesta-usuario" style="margin-bottom: 6px; color: #555;">Tu respuesta: <b>{{ error.respuesta_usuario }}</b></div>
+                <div class="respuesta-correcta" style="margin-bottom: 6px; color: #4f6ef7;">Respuesta correcta: <b>{{ error.respuesta_correcta }}</b></div>
+                <div style="margin-top: 10px; color: #222; background: #eaf1ff; border-radius: 6px; padding: 10px 14px; font-size: 1.01em; text-align: left;">
                     <b>Explicación:</b> {{ error.explicacion }}
                 </div>
             </li>

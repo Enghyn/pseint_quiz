@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz PSeInt - Inicio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f7f7f7 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .inicio-container {
+            background: #fff;
+            padding: 38px 32px;
+            border-radius: 18px;
+            max-width: 520px;
+            width: 96vw;
+            box-shadow: 0 6px 32px rgba(60, 72, 88, 0.12), 0 1.5px 6px rgba(60, 72, 88, 0.10);
+            text-align: center;
+        }
+        h1 {
+            color: #4f6ef7;
+            font-size: 2.2em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            color: #2d3a4a;
+            font-size: 1.18em;
+            margin-bottom: 1.5em;
+        }
+        a, .btn {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 12px 0;
+            font-size: 1.12em;
+            background: linear-gradient(90deg, #4f6ef7 60%, #6b8cff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(79, 110, 247, 0.08);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            width: 100%;
+        }
+        a:active, .btn:active {
+            transform: scale(0.98);
+        }
+        a:hover, .btn:hover {
+            background: linear-gradient(90deg, #3b53c7 60%, #4f6ef7 100%);
+            box-shadow: 0 4px 16px rgba(79, 110, 247, 0.13);
+        }
+    </style>
+</head>
+<body>
+    <div class="inicio-container">
+        <h1>Quiz de PSeInt</h1>
+        <p>
+            Bienvenido/a al Quiz interactivo de PSeInt.<br>
+            Pon a prueba tus conocimientos resolviendo ejercicios de análisis de código y lógica en PSeInt.<br>
+            Cada pregunta es generada dinámicamente y tendrás que elegir la opción correcta.<br>
+            ¡Ideal para practicar y aprender de tus errores!
+        </p>
+        <div style="color: #b85c00; background: #fffbe6; border-radius: 8px; padding: 10px 14px; margin-bottom: 1.2em; font-size: 1em; border: 1px solid #ffe0a3;">
+            <b>Disclaimer:</b> Las actividades y preguntas son generadas automáticamente por IA, por lo que puede haber un pequeño margen de error en los enunciados, opciones o respuestas. Si detectas algún error, por favor ignóralo y continúa practicando.
+        </div>
+        <a href="{{ url_for('quiz') }}" class="btn">Comenzar Quiz</a>
+    </div>
+</body>
+</html>
