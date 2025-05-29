@@ -60,8 +60,8 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 # =============================
 # CACHE DE PREGUNTAS (COLA)
 # =============================
-CACHE_SIZE = 40  # Máximo de preguntas en cache
-CACHE_MIN = 10   # Umbral mínimo para reponer el cache
+CACHE_SIZE = 250  # Máximo de preguntas en cache
+CACHE_MIN = 100   # Umbral mínimo para reponer el cache
 pregunta_cache = queue.Queue(maxsize=CACHE_SIZE)
 cache_lock = threading.Lock()  # (No se usa, pero útil si se extiende)
 
