@@ -156,8 +156,8 @@ def quiz():
     """
     Ruta principal del quiz: muestra la pregunta actual y procesa la respuesta.
     """
-    if 'puntaje' not in session:
-        # Inicializa la sesión si entra directo
+    # Si falta cualquier variable de sesión, inicializa todo
+    if not all(k in session for k in ['puntaje', 'total', 'inicio', 'pregunta_actual', 'errores']):
         session['puntaje'] = 0
         session['total'] = 0
         session['inicio'] = time.time()
